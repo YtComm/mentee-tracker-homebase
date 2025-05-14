@@ -1,3 +1,4 @@
+
 // This interface defines the structure of attendance data
 export interface AttendanceRecord {
   id: string;
@@ -105,7 +106,7 @@ const mockNotes: CheckInNote[] = [
 
 // This class will handle Google Sheets API integration
 class GoogleSheetsService {
-  private auth: GoogleAuth | null = null;
+  private auth: any | null = null;
 
   constructor() {
     // Initialize authentication will be implemented when connecting to real API
