@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -52,6 +53,7 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				"mentee-orange": "#F25F5C",
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -84,11 +86,19 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'scale-up': {
+					'0%': { transform: 'scale(1)' },
+					'100%': { transform: 'scale(1.03)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'scale-up': 'scale-up 0.2s ease-out forwards'
+			},
+			fontFamily: {
+				'mono': ['IBM Plex Mono', 'monospace'],
 			}
 		}
 	},
