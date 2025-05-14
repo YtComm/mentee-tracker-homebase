@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { RefreshCw, Save } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -116,6 +117,7 @@ const Dashboard = () => {
             <h1 className="text-3xl font-bold mb-2">C4 Mentee Dashboard</h1>
             <p className="text-muted-foreground">
               Welcome, {user?.name || 'User'}. Manage your mentee attendance and follow-ups.
+              <Link to="/" className="ml-2 text-mentee-orange hover:underline">Back to Home</Link>
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-2 mt-4 md:mt-0">

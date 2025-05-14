@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import DashboardCard from '@/components/DashboardCard';
-import { Users, CalendarCheck, UserPlus, ArrowRight, PlusCircle } from 'lucide-react';
+import { Users, CalendarCheck, UserPlus, ArrowRight, PlusCircle, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
 const Index = () => {
@@ -36,8 +36,8 @@ const Index = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* C4 Mentee Tracker - Main Card */}
           <DashboardCard
-            title="C4 Mentee Tracker"
-            icon={<ArrowRight size={24} />}
+            title="C4 Mentee Dashboard"
+            icon={<LayoutDashboard size={24} />}
             large={true}
             className="bg-mentee-orange/10 border-mentee-orange/20"
             onClick={handleNavigateToDashboard}

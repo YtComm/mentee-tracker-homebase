@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import { Link, useLocation } from 'react-router-dom';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,12 +10,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Menu, User, Moon, Sun, LogOut, Home } from 'lucide-react';
+import { Menu, User, Moon, Sun, LogOut, Home, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
 const Navbar: React.FC = () => {
   const [darkMode, setDarkMode] = useState(false);
   const { user, logout } = useAuth();
+  const location = useLocation();
 
   // Initialize dark mode from localStorage
   useEffect(() => {
@@ -50,10 +52,28 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className="w-full py-4 px-6 flex justify-between items-center border-b">
-      <div className="flex items-center">
-        <Home className="h-5 w-5 mr-2 text-mentee-orange" />
-        <span className="text-lg font-semibold tracking-tight">Mentee Tracker</span>
+      <div className="flex items-center gap-4">
+        <Link to="/" className="flex items-center">
+          <Home className="h-5 w-5 mr-2 text-mentee-orange" />
+          <span className="text-lg font-semibold tracking-tight">Mentee Tracker</span>
+        </Link>
+        
+        <div className="hidden md:flex gap-4">
+          <Link 
+            to="/" 
+            className={`text-sm font-medium ${location.pathname === '/' ? 'text-mentee-orange' : 'text-muted-foreground hover:text-foreground'}`}
+          >
+            Home
+          </Link>
+          <Link 
+            to="/dashboard" 
+            className={`text-sm font-medium ${location.pathname === '/dashboard' ? 'text-mentee-orange' : 'text-muted-foreground hover:text-foreground'}`}
+          >
+            Dashboard
+          </Link>
+        </div>
       </div>
+      
       <div className="flex items-center">
         {user && (
           <div className="mr-4 text-sm hidden md:block">
@@ -84,6 +104,18 @@ const Navbar: React.FC = () => {
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <DropdownMenuItem className="cursor-pointer" asChild>
+              <Link to="/">
+                <Home className="mr-2 h-4 w-4" />
+                <span>Home</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer" asChild>
+              <Link to="/dashboard">
+                <LayoutDashboard className="mr-2 h-4 w-4" />
+                <span>Dashboard</span>
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer">
               <User className="mr-2 h-4 w-4" />
               <span>Profile Settings</span>
