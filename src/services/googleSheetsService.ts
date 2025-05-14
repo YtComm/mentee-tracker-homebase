@@ -1,6 +1,3 @@
-
-import { GoogleAuth } from 'google-auth-library';
-
 // This interface defines the structure of attendance data
 export interface AttendanceRecord {
   id: string;
