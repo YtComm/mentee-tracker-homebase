@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import DashboardCard from '@/components/DashboardCard';
-import { Users, CalendarCheck, UserPlus, ArrowRight, PlusCircle, LayoutDashboard } from 'lucide-react';
+import { Users, CalendarCheck, UserPlus, PlusCircle, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
 const Index = () => {
@@ -26,7 +26,7 @@ const Index = () => {
       <main className="flex-1 container mx-auto max-w-7xl px-4 py-8 md:py-12">
         {/* Welcome Section */}
         <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">Welcome to Mentee Tracker</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2 text-foreground">Welcome to Mentee Tracker</h1>
           <p className="text-lg text-muted-foreground">
             Your central hub for managing mentorship programs
           </p>
@@ -39,7 +39,7 @@ const Index = () => {
             title="C4 Mentee Dashboard"
             icon={<LayoutDashboard size={24} />}
             large={true}
-            className="bg-mentee-orange/10 border-mentee-orange/20"
+            className="bg-mentee-orange/10 border-mentee-orange/20 dark:bg-mentee-orange/20 dark:border-mentee-orange/30"
             onClick={handleNavigateToDashboard}
           >
             <p className="text-sm text-muted-foreground mb-4">
@@ -71,7 +71,7 @@ const Index = () => {
             onClick={() => console.log('Viewing active programs')}
           >
             <div className="flex flex-col">
-              <span className="text-3xl font-bold mb-1">{activePrograms}</span>
+              <span className="text-3xl font-bold mb-1 text-foreground">{activePrograms}</span>
               <span className="text-sm text-muted-foreground">Programs in progress</span>
             </div>
           </DashboardCard>
@@ -83,7 +83,7 @@ const Index = () => {
             onClick={() => console.log('Viewing all mentees')}
           >
             <div className="flex flex-col">
-              <span className="text-3xl font-bold mb-1">{totalMentees}</span>
+              <span className="text-3xl font-bold mb-1 text-foreground">{totalMentees}</span>
               <span className="text-sm text-muted-foreground">Across all programs</span>
             </div>
           </DashboardCard>
@@ -95,7 +95,7 @@ const Index = () => {
             onClick={() => console.log('Viewing check-ins')}
           >
             <div className="flex flex-col">
-              <span className="text-3xl font-bold mb-1">{checkInsDue}</span>
+              <span className="text-3xl font-bold mb-1 text-foreground">{checkInsDue}</span>
               <span className="text-sm text-muted-foreground">Pending this week</span>
             </div>
           </DashboardCard>
