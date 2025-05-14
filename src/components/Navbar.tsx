@@ -10,13 +10,19 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Menu, User, Moon, LogOut, Home } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Navbar: React.FC = () => {
   const [darkMode, setDarkMode] = useState(false);
+  const { user, logout } = useAuth();
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
     document.documentElement.classList.toggle('dark');
+  };
+
+  const handleLogout = async () => {
+    await logout();
   };
 
   return (
@@ -25,7 +31,13 @@ const Navbar: React.FC = () => {
         <Home className="h-5 w-5 mr-2 text-mentee-orange" />
         <span className="text-lg font-semibold tracking-tight">Mentee Tracker</span>
       </div>
-      <div>
+      <div className="flex items-center">
+        {user && (
+          <div className="mr-4 text-sm hidden md:block">
+            <span className="text-muted-foreground">Logged in as </span>
+            <span className="font-medium">{user.name}</span>
+          </div>
+        )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-9 w-9 rounded-full p-0">
@@ -44,7 +56,7 @@ const Navbar: React.FC = () => {
               <span>Dark Mode</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer">
+            <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
               <span>Logout</span>
             </DropdownMenuItem>

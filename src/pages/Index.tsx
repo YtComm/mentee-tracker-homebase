@@ -1,14 +1,27 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import DashboardCard from '@/components/DashboardCard';
 import { Users, CalendarCheck, UserPlus, ArrowRight, PlusCircle } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Index = () => {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+
   // Mock data
   const activePrograms = 3;
   const totalMentees = 128;
   const checkInsDue = 24;
+
+  const handleNavigateToDashboard = () => {
+    navigate('/dashboard');
+  };
+
+  const handleLoginRedirect = () => {
+    navigate('/login');
+  };
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -30,7 +43,7 @@ const Index = () => {
             icon={<ArrowRight size={24} />}
             large={true}
             className="bg-mentee-orange/10 border-mentee-orange/20"
-            onClick={() => console.log('Navigating to C4 Mentee Tracker')}
+            onClick={isAuthenticated ? handleNavigateToDashboard : handleLoginRedirect}
           >
             <p className="text-sm text-muted-foreground mb-4">
               Access detailed mentee tracking and attendance management
@@ -90,6 +103,19 @@ const Index = () => {
             </div>
           </DashboardCard>
         </div>
+
+        {/* Call to action for non-authenticated users */}
+        {!isAuthenticated && (
+          <div className="mt-12 text-center">
+            <p className="mb-4 text-lg">Please log in to access the full functionality</p>
+            <button 
+              onClick={handleLoginRedirect}
+              className="px-6 py-3 bg-mentee-orange text-white rounded-md hover:bg-mentee-orange/90 transition-colors font-medium"
+            >
+              Sign In
+            </button>
+          </div>
+        )}
       </main>
       <footer className="py-6 text-center text-sm text-muted-foreground">
         <p>© {new Date().getFullYear()} Mentee Tracker • All rights reserved</p>
