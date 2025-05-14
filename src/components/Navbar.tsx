@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -9,16 +9,39 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Menu, User, Moon, LogOut, Home } from 'lucide-react';
+import { Menu, User, Moon, Sun, LogOut, Home } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
 const Navbar: React.FC = () => {
   const [darkMode, setDarkMode] = useState(false);
   const { user, logout } = useAuth();
 
+  // Initialize dark mode from localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('menteeTracker_theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    // Set initial dark mode - check localStorage first, then system preference
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      setDarkMode(true);
+      document.documentElement.classList.add('dark');
+    } else {
+      setDarkMode(false);
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+  
   const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle('dark');
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+    
+    if (newDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('menteeTracker_theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('menteeTracker_theme', 'light');
+    }
   };
 
   const handleLogout = async () => {
@@ -38,6 +61,20 @@ const Navbar: React.FC = () => {
             <span className="font-medium">{user.name}</span>
           </div>
         )}
+        
+        {/* Dark Mode Toggle Button */}
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className="mr-2 rounded-full"
+          onClick={toggleDarkMode}
+        >
+          {darkMode ? 
+            <Sun className="h-5 w-5" /> : 
+            <Moon className="h-5 w-5" />
+          }
+        </Button>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-9 w-9 rounded-full p-0">
@@ -52,8 +89,11 @@ const Navbar: React.FC = () => {
               <span>Profile Settings</span>
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer" onClick={toggleDarkMode}>
-              <Moon className="mr-2 h-4 w-4" />
-              <span>Dark Mode</span>
+              {darkMode ? 
+                <Sun className="mr-2 h-4 w-4" /> : 
+                <Moon className="mr-2 h-4 w-4" />
+              }
+              <span>{darkMode ? 'Light Mode' : 'Dark Mode'}</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>

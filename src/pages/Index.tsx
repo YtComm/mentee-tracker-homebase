@@ -19,10 +19,7 @@ const Index = () => {
     navigate('/dashboard');
   };
 
-  const handleLoginRedirect = () => {
-    navigate('/login');
-  };
-
+  // If not authenticated, this would never render due to the ProtectedRoute wrapper
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
@@ -43,7 +40,7 @@ const Index = () => {
             icon={<ArrowRight size={24} />}
             large={true}
             className="bg-mentee-orange/10 border-mentee-orange/20"
-            onClick={isAuthenticated ? handleNavigateToDashboard : handleLoginRedirect}
+            onClick={handleNavigateToDashboard}
           >
             <p className="text-sm text-muted-foreground mb-4">
               Access detailed mentee tracking and attendance management
@@ -103,19 +100,6 @@ const Index = () => {
             </div>
           </DashboardCard>
         </div>
-
-        {/* Call to action for non-authenticated users */}
-        {!isAuthenticated && (
-          <div className="mt-12 text-center">
-            <p className="mb-4 text-lg">Please log in to access the full functionality</p>
-            <button 
-              onClick={handleLoginRedirect}
-              className="px-6 py-3 bg-mentee-orange text-white rounded-md hover:bg-mentee-orange/90 transition-colors font-medium"
-            >
-              Sign In
-            </button>
-          </div>
-        )}
       </main>
       <footer className="py-6 text-center text-sm text-muted-foreground">
         <p>© {new Date().getFullYear()} Mentee Tracker • All rights reserved</p>

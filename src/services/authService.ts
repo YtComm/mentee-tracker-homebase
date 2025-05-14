@@ -40,17 +40,17 @@ class AuthService {
   private currentUser: User | null = null;
 
   constructor() {
-    // Check if user is already logged in from localStorage
+    // Check if user is already logged in from sessionStorage
     this.loadUserFromStorage();
   }
 
   private loadUserFromStorage() {
-    const userJson = localStorage.getItem('menteeTracker_currentUser');
+    const userJson = sessionStorage.getItem('menteeTracker_currentUser');
     if (userJson) {
       try {
         this.currentUser = JSON.parse(userJson);
       } catch (error) {
-        console.error('Failed to parse user from localStorage');
+        console.error('Failed to parse user from sessionStorage');
         this.currentUser = null;
       }
     }
@@ -58,9 +58,9 @@ class AuthService {
 
   private saveUserToStorage(user: User | null) {
     if (user) {
-      localStorage.setItem('menteeTracker_currentUser', JSON.stringify(user));
+      sessionStorage.setItem('menteeTracker_currentUser', JSON.stringify(user));
     } else {
-      localStorage.removeItem('menteeTracker_currentUser');
+      sessionStorage.removeItem('menteeTracker_currentUser');
     }
   }
 

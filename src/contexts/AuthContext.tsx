@@ -19,10 +19,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const { toast } = useToast();
 
   useEffect(() => {
-    // Check if the user is already authenticated
-    const currentUser = authService.getCurrentUser();
-    setUser(currentUser);
-    setIsLoading(false);
+    // Check if the user is already authenticated from sessionStorage
+    const checkAuth = () => {
+      const currentUser = authService.getCurrentUser();
+      setUser(currentUser);
+      setIsLoading(false);
+    };
+    
+    checkAuth();
   }, []);
 
   const login = async (credentials: LoginCredentials) => {
