@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Chart } from '@/components/ui/chart';
+import { Chart } from '@/components/ui/Chart';
 import { googleSheetsService } from '@/services/googleSheetsService';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
