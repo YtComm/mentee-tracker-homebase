@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   ChartContainer, 
@@ -6,7 +5,7 @@ import {
   ChartTooltipContent,
   ChartLegend,
   ChartLegendContent,
-} from "./chart"; // This import needs to match the actual file name casing
+} from "@/components/ui/chart";
 import { 
   AreaChart, 
   Area, 
