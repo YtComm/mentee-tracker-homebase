@@ -17,23 +17,23 @@ const Analytics: React.FC = () => {
   // Calculate program completion percentage
   const programCompletion = 75; // 75% complete
 
-  // Priority distribution
-  const priorityDistribution = {
-    P0: googleSheetsService.getPriorityCount('P0'),
-    P1: googleSheetsService.getPriorityCount('P1'),
-    P2: googleSheetsService.getPriorityCount('P2'),
-    P3: googleSheetsService.getPriorityCount('P3'),
-    None: googleSheetsService.getPriorityCount(null),
-  };
+  // Priority distribution - transform data for better visualization
+  const priorityData = [
+    { name: 'P0', value: googleSheetsService.getPriorityCount('P0') },
+    { name: 'P1', value: googleSheetsService.getPriorityCount('P1') },
+    { name: 'P2', value: googleSheetsService.getPriorityCount('P2') },
+    { name: 'P3', value: googleSheetsService.getPriorityCount('P3') },
+    { name: 'None', value: googleSheetsService.getPriorityCount(null) },
+  ];
 
-  // Status distribution
-  const statusDistribution = {
-    'In Progress': googleSheetsService.getStatusCount('In Progress'),
-    'Call Later': googleSheetsService.getStatusCount('Call Later'),
-    'Support Needed': googleSheetsService.getStatusCount('Support Needed'),
-    'Completed': googleSheetsService.getStatusCount('Completed'),
-    'DNR': googleSheetsService.getStatusCount('DNR'),
-  };
+  // Status distribution - transform data for better visualization
+  const statusData = [
+    { name: 'In Progress', value: googleSheetsService.getStatusCount('In Progress') },
+    { name: 'Call Later', value: googleSheetsService.getStatusCount('Call Later') },
+    { name: 'Support Needed', value: googleSheetsService.getStatusCount('Support Needed') },
+    { name: 'Completed', value: googleSheetsService.getStatusCount('Completed') },
+    { name: 'DNR', value: googleSheetsService.getStatusCount('DNR') },
+  ];
 
   return (
     <div className="space-y-6">
@@ -82,14 +82,15 @@ const Analytics: React.FC = () => {
           <CardDescription>Mentees by priority level</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="h-[200px]">
+          <div className="h-[250px]">
             <Chart 
-              data={[priorityDistribution]}
+              data={priorityData}
               type="pie"
               category="value"
               index="name"
               colors={['#ef4444', '#f97316', '#facc15', '#60a5fa', '#d1d5db']}
               valueFormatter={(value) => `${value} mentees`}
+              showLegend={true}
             />
           </div>
         </CardContent>
@@ -102,14 +103,15 @@ const Analytics: React.FC = () => {
           <CardDescription>Mentees by current status</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="h-[200px]">
+          <div className="h-[250px]">
             <Chart 
-              data={[statusDistribution]}
+              data={statusData}
               type="donut"
               category="value"
               index="name"
               colors={['#60a5fa', '#f97316', '#ef4444', '#4ade80', '#d1d5db']}
               valueFormatter={(value) => `${value} mentees`}
+              showLegend={true}
             />
           </div>
         </CardContent>
