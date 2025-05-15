@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Chart } from '@/components/ui/Chart';
+import { Chart } from '@/components/ui/Chart'; // Make sure this matches the actual file name casing
 import { googleSheetsService } from '@/services/googleSheetsService';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';

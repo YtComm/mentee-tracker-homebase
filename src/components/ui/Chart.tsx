@@ -6,7 +6,7 @@ import {
   ChartTooltipContent,
   ChartLegend,
   ChartLegendContent,
-} from "./chart";
+} from "./chart"; // This import needs to match the actual file name casing
 import { 
   AreaChart, 
   Area, 
