@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { 
   ChartContainer, 
@@ -5,7 +6,7 @@ import {
   ChartTooltipContent,
   ChartLegend,
   ChartLegendContent,
-} from "@/components/ui/chart";
+} from "@/components/ui/chart"; // This should be lowercase, as that's the actual chart utility file
 import { 
   AreaChart, 
   Area, 
