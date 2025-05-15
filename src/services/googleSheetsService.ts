@@ -10,6 +10,7 @@ export interface AttendanceRecord {
   priority: 'P0' | 'P1' | 'P2' | 'P3' | null;
   lastAttendance: string | null;
   status: 'In Progress' | 'Call Later' | 'Support Needed' | 'Completed' | 'DNR';
+  currentWeek?: number;
 }
 
 // This interface defines the structure of a check-in note
@@ -33,6 +34,7 @@ const mockMentees: AttendanceRecord[] = [
     priority: 'P0',
     lastAttendance: '2025-04-16',
     status: 'Support Needed',
+    currentWeek: 4,
   },
   {
     id: '2',
@@ -44,6 +46,7 @@ const mockMentees: AttendanceRecord[] = [
     priority: 'P1',
     lastAttendance: '2025-05-07',
     status: 'Call Later',
+    currentWeek: 4,
   },
   {
     id: '3',
@@ -55,6 +58,7 @@ const mockMentees: AttendanceRecord[] = [
     priority: 'P2',
     lastAttendance: '2025-05-01',
     status: 'In Progress',
+    currentWeek: 4,
   },
   {
     id: '4',
@@ -66,6 +70,7 @@ const mockMentees: AttendanceRecord[] = [
     priority: 'P3',
     lastAttendance: '2025-05-07',
     status: 'In Progress',
+    currentWeek: 4,
   },
   {
     id: '5',
@@ -77,6 +82,7 @@ const mockMentees: AttendanceRecord[] = [
     priority: null,
     lastAttendance: '2025-05-14',
     status: 'Completed',
+    currentWeek: 4,
   },
 ];
 
@@ -205,6 +211,53 @@ class GoogleSheetsService {
     // For now, just log and return success
     console.log('Notes archived to Data Dump');
     return true;
+  }
+
+  /**
+   * Gets mentee count for a specific priority level
+   */
+  getPriorityCount(priority: 'P0' | 'P1' | 'P2' | 'P3' | null): number {
+    return mockMentees.filter(m => m.priority === priority).length;
+  }
+
+  /**
+   * Gets mentee count for a specific status
+   */
+  getStatusCount(status: 'In Progress' | 'Call Later' | 'Support Needed' | 'Completed' | 'DNR'): number {
+    return mockMentees.filter(m => m.status === status).length;
+  }
+
+  /**
+   * Gets attendance rate for a specific week
+   */
+  getWeeklyAttendanceRate(weekIndex: number): number {
+    if (weekIndex < 0 || weekIndex >= 4) return 0;
+    
+    const totalMentees = mockMentees.length;
+    if (totalMentees === 0) return 0;
+    
+    const presentCount = mockMentees.filter(m => m.attendanceStatus[weekIndex]).length;
+    return Math.round((presentCount / totalMentees) * 100);
+  }
+
+  /**
+   * Generates a weekly summary report
+   */
+  async generateWeeklySummary(week: 'current' | 'week1' | 'week2' | 'week3' | 'week4', format: string): Promise<string> {
+    // In production, this would actually generate a report file
+    // For now, log the request and return a mock URL
+    console.log(`Generating ${format} report for ${week}`);
+    return `https://example.com/reports/weekly-summary-${week}.${format}`;
+  }
+
+  /**
+   * Uploads and imports new attendance data
+   */
+  async importAttendanceData(file: File): Promise<AttendanceRecord[]> {
+    // In production, this would parse and import the file
+    // For now, return mock data
+    console.log(`Importing file: ${file.name}`);
+    return mockMentees;
   }
 }
 

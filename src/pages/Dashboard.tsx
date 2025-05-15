@@ -5,9 +5,19 @@ import { googleSheetsService, AttendanceRecord } from '@/services/googleSheetsSe
 import { useToast } from '@/hooks/use-toast';
 import Navbar from '@/components/Navbar';
 import MenteeList from '@/components/MenteeList';
+import Analytics from '@/components/Analytics';
+import WeeklySummary from '@/components/WeeklySummary';
+import QuickNotes from '@/components/QuickNotes';
+import PreviewImport from '@/components/PreviewImport';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { RefreshCw, Save } from 'lucide-react';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
+import { RefreshCw, Save, BarChart3, FileText, ListFilter, Users, Upload } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 
@@ -19,6 +29,7 @@ const Dashboard = () => {
   const [filterPriority, setFilterPriority] = useState<string | null>(null);
   const [filterStatus, setFilterStatus] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [activeTab, setActiveTab] = useState('mentees');
 
   useEffect(() => {
     loadMenteeData();
@@ -165,84 +176,123 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Filters */}
-        <div className="flex flex-col md:flex-row gap-4 mb-6">
-          <div className="flex-1">
-            <Input 
-              type="text" 
-              placeholder="Search by name or email..." 
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full"
-            />
-          </div>
-          <div className="flex gap-2 flex-wrap">
-            <Button 
-              variant={filterPriority === null ? "secondary" : "outline"} 
-              size="sm"
-              onClick={() => setFilterPriority(null)}
-            >
-              All
-            </Button>
-            <Button 
-              variant={filterPriority === 'P0' ? "secondary" : "outline"} 
-              size="sm"
-              onClick={() => setFilterPriority(filterPriority === 'P0' ? null : 'P0')}
-              className="border-red-300"
-            >
-              P0
-            </Button>
-            <Button 
-              variant={filterPriority === 'P1' ? "secondary" : "outline"} 
-              size="sm"
-              onClick={() => setFilterPriority(filterPriority === 'P1' ? null : 'P1')}
-              className="border-orange-300"
-            >
-              P1
-            </Button>
-            <Button 
-              variant={filterPriority === 'P2' ? "secondary" : "outline"} 
-              size="sm"
-              onClick={() => setFilterPriority(filterPriority === 'P2' ? null : 'P2')}
-              className="border-yellow-300"
-            >
-              P2
-            </Button>
-            <Button 
-              variant={filterPriority === 'P3' ? "secondary" : "outline"} 
-              size="sm"
-              onClick={() => setFilterPriority(filterPriority === 'P3' ? null : 'P3')}
-              className="border-blue-300"
-            >
-              P3
-            </Button>
-          </div>
-        </div>
-        
-        {/* Status filter */}
-        <div className="flex flex-wrap gap-2 mb-6">
-          <Badge variant="outline" className="cursor-pointer hover:bg-accent" onClick={() => setFilterStatus(null)}>
-            All Statuses
-          </Badge>
-          <Badge variant="outline" className="cursor-pointer hover:bg-accent" onClick={() => setFilterStatus('In Progress')}>
-            In Progress
-          </Badge>
-          <Badge variant="outline" className="cursor-pointer hover:bg-accent" onClick={() => setFilterStatus('Call Later')}>
-            Call Later
-          </Badge>
-          <Badge variant="outline" className="cursor-pointer hover:bg-accent" onClick={() => setFilterStatus('Support Needed')}>
-            Support Needed
-          </Badge>
-          <Badge variant="outline" className="cursor-pointer hover:bg-accent" onClick={() => setFilterStatus('Completed')}>
-            Completed
-          </Badge>
-          <Badge variant="outline" className="cursor-pointer hover:bg-accent" onClick={() => setFilterStatus('DNR')}>
-            DNR
-          </Badge>
-        </div>
+        {/* Tabs for different views */}
+        <Tabs defaultValue="mentees" value={activeTab} onValueChange={setActiveTab} className="mb-6">
+          <TabsList className="grid grid-cols-5">
+            <TabsTrigger value="mentees" className="flex items-center gap-2">
+              <Users size={16} /> Mentees
+            </TabsTrigger>
+            <TabsTrigger value="analytics" className="flex items-center gap-2">
+              <BarChart3 size={16} /> Analytics
+            </TabsTrigger>
+            <TabsTrigger value="reports" className="flex items-center gap-2">
+              <FileText size={16} /> Reports
+            </TabsTrigger>
+            <TabsTrigger value="notes" className="flex items-center gap-2">
+              <ListFilter size={16} /> Quick Notes
+            </TabsTrigger>
+            <TabsTrigger value="import" className="flex items-center gap-2">
+              <Upload size={16} /> Import
+            </TabsTrigger>
+          </TabsList>
 
-        {/* Mentee List */}
-        <MenteeList mentees={filteredMentees} isLoading={isLoading} />
+          <TabsContent value="mentees" className="pt-6">
+            {/* Filters */}
+            <div className="flex flex-col md:flex-row gap-4 mb-6">
+              <div className="flex-1">
+                <Input 
+                  type="text" 
+                  placeholder="Search by name or email..." 
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full"
+                />
+              </div>
+              <div className="flex gap-2 flex-wrap">
+                <Button 
+                  variant={filterPriority === null ? "secondary" : "outline"} 
+                  size="sm"
+                  onClick={() => setFilterPriority(null)}
+                >
+                  All
+                </Button>
+                <Button 
+                  variant={filterPriority === 'P0' ? "secondary" : "outline"} 
+                  size="sm"
+                  onClick={() => setFilterPriority(filterPriority === 'P0' ? null : 'P0')}
+                  className="border-red-300"
+                >
+                  P0
+                </Button>
+                <Button 
+                  variant={filterPriority === 'P1' ? "secondary" : "outline"} 
+                  size="sm"
+                  onClick={() => setFilterPriority(filterPriority === 'P1' ? null : 'P1')}
+                  className="border-orange-300"
+                >
+                  P1
+                </Button>
+                <Button 
+                  variant={filterPriority === 'P2' ? "secondary" : "outline"} 
+                  size="sm"
+                  onClick={() => setFilterPriority(filterPriority === 'P2' ? null : 'P2')}
+                  className="border-yellow-300"
+                >
+                  P2
+                </Button>
+                <Button 
+                  variant={filterPriority === 'P3' ? "secondary" : "outline"} 
+                  size="sm"
+                  onClick={() => setFilterPriority(filterPriority === 'P3' ? null : 'P3')}
+                  className="border-blue-300"
+                >
+                  P3
+                </Button>
+              </div>
+            </div>
+            
+            {/* Status filter */}
+            <div className="flex flex-wrap gap-2 mb-6">
+              <Badge variant="outline" className="cursor-pointer hover:bg-accent" onClick={() => setFilterStatus(null)}>
+                All Statuses
+              </Badge>
+              <Badge variant="outline" className="cursor-pointer hover:bg-accent" onClick={() => setFilterStatus('In Progress')}>
+                In Progress
+              </Badge>
+              <Badge variant="outline" className="cursor-pointer hover:bg-accent" onClick={() => setFilterStatus('Call Later')}>
+                Call Later
+              </Badge>
+              <Badge variant="outline" className="cursor-pointer hover:bg-accent" onClick={() => setFilterStatus('Support Needed')}>
+                Support Needed
+              </Badge>
+              <Badge variant="outline" className="cursor-pointer hover:bg-accent" onClick={() => setFilterStatus('Completed')}>
+                Completed
+              </Badge>
+              <Badge variant="outline" className="cursor-pointer hover:bg-accent" onClick={() => setFilterStatus('DNR')}>
+                DNR
+              </Badge>
+            </div>
+
+            {/* Mentee List */}
+            <MenteeList mentees={filteredMentees} isLoading={isLoading} />
+          </TabsContent>
+
+          <TabsContent value="analytics" className="pt-6">
+            <Analytics />
+          </TabsContent>
+
+          <TabsContent value="reports" className="pt-6">
+            <WeeklySummary />
+          </TabsContent>
+
+          <TabsContent value="notes" className="pt-6">
+            <QuickNotes />
+          </TabsContent>
+
+          <TabsContent value="import" className="pt-6">
+            <PreviewImport />
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   );

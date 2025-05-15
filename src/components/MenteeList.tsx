@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import MenteeDetailDialog from '@/components/MenteeDetailDialog';
+import WeekBadge from '@/components/WeekBadge';
 
 interface MenteeListProps {
   mentees: AttendanceRecord[];
@@ -73,6 +74,7 @@ const MenteeList: React.FC<MenteeListProps> = ({ mentees, isLoading }) => {
               <TableHead className="hidden lg:table-cell">Phone</TableHead>
               <TableHead>Priority</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Week</TableHead>
               <TableHead className="hidden md:table-cell">Last Attendance</TableHead>
             </TableRow>
           </TableHeader>
@@ -99,6 +101,14 @@ const MenteeList: React.FC<MenteeListProps> = ({ mentees, isLoading }) => {
                   <Badge className={`${getStatusColor(mentee.status)}`}>
                     {mentee.status}
                   </Badge>
+                </TableCell>
+                <TableCell>
+                  {mentee.currentWeek && (
+                    <WeekBadge 
+                      week={mentee.currentWeek} 
+                      status={mentee.status === 'Completed' ? 'completed' : 'active'}
+                    />
+                  )}
                 </TableCell>
                 <TableCell className="hidden md:table-cell">
                   {mentee.lastAttendance ? 
