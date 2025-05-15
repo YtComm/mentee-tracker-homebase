@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Chart } from '@/components/ui/Chart'; // Using uppercase to match the file name
+import { Chart } from '@/components/ui/charts'; // Updated import path to charts 
 import { googleSheetsService } from '@/services/googleSheetsService';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
